@@ -2,7 +2,7 @@ function duplicatedWord(paragraph){
   const words = paragraph.split(" ")
   const w ={}
   words.forEach( word => {
-    const cleanWord = word.replace(/[^\w\s]/gi, '')
+    const cleanWord = word.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"")
     if (cleanWord.length >=3){
       w[cleanWord] = (w[cleanWord] || 0) +1
     }
