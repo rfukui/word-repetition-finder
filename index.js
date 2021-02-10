@@ -2,7 +2,7 @@ function duplicatedWord(paragraph){
   const words = paragraph.split(" ")
   const w ={}
   words.forEach( word => {
-    const cleanWord = word.replace(/[^A-Za-z0-9]/g, '')
+    const cleanWord = word.replace(/[^\w\s]/gi, '')
     if (cleanWord.length >=3){
       w[cleanWord] = (w[cleanWord] || 0) +1
     }
@@ -12,7 +12,7 @@ function duplicatedWord(paragraph){
 }
 
 function findSomething(object) {
-  return Object.keys(object).find(key => object[key] > 1);
+  return Object.keys(object).filter(key => object[key] > 1)
 }
 
 
@@ -21,19 +21,18 @@ function wordFinder(text) {
   const wc = paragraphs.map( paragraph => duplicatedWord(paragraph))
   x = []
   wc.forEach((item, i) => {
-    if (findSomething(item)){
-      x.push({duplicated: Object.keys(item)[0], paragraph:paragraphs[i]})
-    }
+    console.log(findSomething(item))
+    const dupliWords = findSomething(item).join(', ')
+      x.push({duplicated: dupliWords, paragraph:paragraphs[i]})
   })
   return x
 }
 
 function callButton(){
   let doc = document.getElementById('duplicated')
-  const x = wordFinder(document.getElementById('textInput').value)
-  console.log(x)
-  x.forEach((item, i) => {
-    doc.innerHTML =  (doc.innerHTML||"") +`<div> palavra duplicada: ${item.duplicated} paragrafo -> ${item.paragraph} </div>`
+  doc.innerHTML = ""
+  wordFinder(document.getElementById('textInput').value).forEach((item, i) => {
+    doc.innerHTML += `<div> palavras duplicadas: ${item.duplicated} paragrafo -> ${item.paragraph} <br /><br /><br />`
   });
  console.log(doc)
 }
